@@ -9,12 +9,15 @@ import random
 today = datetime.now()
 start_date = os.environ['START_DATE']
 city = os.environ['CITY']
-birthday = os.environ['BIRTHDAY']
+gf_birthday = os.environ['GFBIRTHDAY']
+bf_birthday = os.environ['BFBIRTHDAY']
+gk_date = os.environ['GK_DATE']
 
 app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
 
-user_id = os.environ["USER_ID"]
+bf_user_id = os.environ["BF_USER_ID"]
+gf_user_id = os.environ["GF_USER_ID"]
 template_id = os.environ["TEMPLATE_ID"]
 
 
@@ -24,20 +27,32 @@ def get_weather():
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp'])
 
-def get_count():
+def get_loveday_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
 
-def get_birthday():
-  next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
+def get_gf_birthday():
+  next = datetime.strptime(str(date.today().year) + "-" + gf_birthday, "%Y-%m-%d")
   if next < datetime.now():
     next = next.replace(year=next.year + 1)
   return (next - today).days
 
-def get_words():
+def get_bf_birthday():
+  next = datetime.strptime(str(date.today().year) + "-" + bf_birthday, "%Y-%m-%d")
+  if next < datetime.now():
+    next = next.replace(year=next.year + 1)
+  return (next - today).days
+
+def get_gk_day_left():
+  next = datetime.strptime(str(date.today().year) + "-" + gk_date, "%Y-%m-%d")
+  if next < datetime.now():
+    next = next.replace(year=next.year + 1)
+  return (next - today).days
+
+def get_loveword():
   words = requests.get("https://api.shadiao.pro/chp")
   if words.status_code != 200:
-    return get_words()
+    return get_loveword()
   return words.json()['data']['text']
 
 def get_random_color():
@@ -48,6 +63,9 @@ client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature = get_weather()
-data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
-res = wm.send_template(user_id, template_id, data)
+data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_loveday_count()},
+        "gf_birthday_left":{"value":get_gf_birthday()},"bf_birthday_left":{"value":get_bf_birthday()},
+        "gk_day_left":{"value":get_gk_day_left()},"words":{"value":get_loveword(), "color":get_random_color()}}
+res = wm.send_template(bf_user_id, template_id, data)
+res = wm.send_template(gf_user_id, template_id, data)
 print(res)

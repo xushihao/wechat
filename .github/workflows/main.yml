@@ -26,7 +26,10 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
       TEMPLATE_ID: ${{ secrets.TEMPLATE_ID }}
-      USER_ID: ${{ secrets.USER_ID }}
+      BF_USER_ID: ${{ secrets.BF_USER_ID }}
+      GF_USER_ID: ${{ secrets.GF_USER_ID }}
       START_DATE: ${{ secrets.START_DATE }}
-      BIRTHDAY: ${{ secrets.BIRTHDAY }}
+      GFBIRTHDAY: ${{ secrets.GFBIRTHDAY }}
+      BFBIRTHDAY: ${{ secrets.BFBIRTHDAY }}
       CITY: ${{ secrets.CITY }}
+      GK_DATE: ${{ secrets.GK_DATE }}
