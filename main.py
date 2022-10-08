@@ -35,19 +35,19 @@ def get_gf_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + gf_birthday, "%Y-%m-%d")
   if next < datetime.now():
     next = next.replace(year=next.year + 1)
-  return (next - today).days
+  return (next - today).days + 1
 
 def get_bf_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + bf_birthday, "%Y-%m-%d")
   if next < datetime.now():
     next = next.replace(year=next.year + 1)
-  return (next - today).days
+  return (next - today).days + 1
 
 def get_gk_day_left():
   next = datetime.strptime(str(date.today().year) + "-" + gk_date, "%Y-%m-%d")
   if next < datetime.now():
     next = next.replace(year=next.year + 1)
-  return (next - today).days
+  return (next - today).days + 1
 
 def get_loveword():
   words = requests.get("https://api.shadiao.pro/chp")
