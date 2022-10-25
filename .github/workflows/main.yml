@@ -33,3 +33,4 @@ jobs:
       BFBIRTHDAY: ${{ secrets.BFBIRTHDAY }}
       CITY: ${{ secrets.CITY }}
       GK_DATE: ${{ secrets.GK_DATE }}
+      XD_DATE: ${{ secrets.XD_DATE }}

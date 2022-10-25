@@ -12,6 +12,7 @@ city = os.environ['CITY']
 gf_birthday = os.environ['GFBIRTHDAY']
 bf_birthday = os.environ['BFBIRTHDAY']
 gk_date = os.environ['GK_DATE']
+xd_date = os.environ['XD_DATE']
 
 app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
@@ -49,6 +50,12 @@ def get_gk_day_left():
     next = next.replace(year=next.year + 1)
   return (next - today).days
 
+def get_xd_day_left():
+  next = datetime.strptime(str(date.today().year) + "-" + xd_date, "%Y-%m-%d")
+  if next < datetime.now():
+    next = next.replace(year=next.year + 1)
+  return (next - today).days
+
 def get_loveword():
   words = requests.get("https://api.shadiao.pro/chp")
   if words.status_code != 200:
@@ -65,7 +72,7 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_loveday_count()},
         "gf_birthday_left":{"value":get_gf_birthday()},"bf_birthday_left":{"value":get_bf_birthday()},
-        "gk_day_left":{"value":get_gk_day_left()},"words":{"value":get_loveword(), "color":get_random_color()}}
+        "gk_day_left":{"value":get_gk_day_left()},"xd_day_left":{"value":get_xd_day_left()},"words":{"value":get_loveword(), "color":get_random_color()}}
 res = wm.send_template(bf_user_id, template_id, data)
 res = wm.send_template(gf_user_id, template_id, data)
 print(res)
